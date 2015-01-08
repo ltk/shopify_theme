@@ -53,7 +53,6 @@ module ShopifyTheme
     # and then use a rel JSON parser.
     response = shopify.get(path, :parser => NOOPParser)
     manage_timer(response)
-
     assets = JSON.parse(response.body)["assets"].collect {|a| a['key'] }
     # Remove any .css files if a .css.liquid file exists
     assets.reject{|a| assets.include?("#{a}.liquid") }
@@ -137,7 +136,9 @@ module ShopifyTheme
   private
   def self.shopify
     basic_auth config[:api_key], config[:password]
-    base_uri "https://#{config[:store]}"
+    # TODO: switch back to https
+    # base_uri "https://#{config[:store]}"
+    base_uri "http://#{config[:store]}"
     ShopifyTheme
   end
 
